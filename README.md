@@ -31,9 +31,13 @@ You can also edit mongo-auth.init.js to change admin credentials before turning 
 :tropical_drink: Then you should be able to log into the cluster:
 
     $ docker exec -it mongo-router-01 mongo admin  -u 'admin' -p 'admin'
+   
    Current Mongosh Log ID: 65479c1b35d5d3fc69aeb6e9
+
    Connecting to:          mongodb://<credentials>@127.0.0.1:30000/?directConnection=true&serverSelectionTimeoutMS=2000&authSource=admin&appName=mongosh+2.0.1
+   
    Using MongoDB:          7.0.2
+   
    Using Mongosh:          2.0.1
 
    For mongosh info see: https://docs.mongodb.com/mongodb-shell/
