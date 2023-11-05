@@ -3,6 +3,9 @@ services:
   mongo-configserver-a:
     container_name: mongo-configserver-a
     image: mongo
+    restart: on-failure
+    networks:
+        - netApplication
     command: mongod --auth --port 10001 --configsvr --replSet mongo-configserver --dbpath /data/db --keyFile /mongodb.key
     expose: 
         - 10001
@@ -15,6 +18,9 @@ services:
   mongo-configserver-b:
     container_name: mongo-configserver-b
     image: mongo
+    restart: on-failure
+    networks:
+        - netApplication
     command: mongod --auth --port 10002 --configsvr --replSet mongo-configserver --dbpath /data/db --keyFile /mongodb.key
     expose: 
         - 10002
@@ -27,6 +33,9 @@ services:
   mongo-configserver-c:
     container_name: mongo-configserver-c
     image: mongo
+    restart: on-failure
+    networks:
+        - netApplication
     command: mongod --auth --port 10003 --configsvr --replSet mongo-configserver --dbpath /data/db --keyFile /mongodb.key
     expose: 
         - 10003
@@ -39,6 +48,9 @@ services:
   mongo-shard-01a:
     container_name: mongo-shard-01a
     image: mongo
+    restart: on-failure
+    networks:
+        - netApplication
     command: mongod --auth --port 20001 --shardsvr --replSet mongo-shard-01 --dbpath /data/db  --keyFile /mongodb.key
     expose: 
         - 20001
@@ -51,6 +63,9 @@ services:
   mongo-shard-01b:
     container_name: mongo-shard-01b
     image: mongo
+    restart: on-failure
+    networks:
+        - netApplication
     command: mongod --auth --port 20002 --shardsvr --replSet mongo-shard-01 --dbpath /data/db  --keyFile /mongodb.key
     expose: 
         - 20002
@@ -63,6 +78,9 @@ services:
   mongo-shard-01c:
     container_name: mongo-shard-01c
     image: mongo
+    restart: on-failure
+    networks:
+        - netApplication
     command: mongod --auth --port 20003 --shardsvr --replSet mongo-shard-01 --dbpath /data/db  --keyFile /mongodb.key
     expose: 
         - 20003
@@ -75,6 +93,9 @@ services:
   mongo-router-01:
     container_name: mongo-router-01
     image: mongo
+    restart: on-failure
+    networks:
+        - netApplication
     command: mongos --port 30000 --configdb mongo-configserver/mongo-configserver-a:10001,mongo-configserver-b:10002,mongo-configserver-c:10003 --keyFile /mongodb.key
     expose: 
         - 30000
@@ -92,3 +113,6 @@ services:
       - mongo-shard-01a
       - mongo-shard-01b
       - mongo-shard-01c
+
+networks: 
+    netApplication:
