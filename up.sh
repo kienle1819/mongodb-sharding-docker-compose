@@ -9,7 +9,8 @@ chmod 600 mongodb.key
 
 ## Start the whole stack
 docker-compose up -d 
-
+sleep 60
+echo seed the config server
 ## Config servers setup
 docker exec -it mongo-configserver-a sh -c "/usr/bin/mongosh --port 10001 < /mongo-configserver.init.js"
 
@@ -18,7 +19,9 @@ docker exec -it mongo-shard-01a sh -c "/usr/bin/mongosh --port 20001 < /mongo-sh
 
 ## Apply sharding configuration
 sleep 15
+echo configure router sharding
 docker exec -it mongo-router-01 sh -c "/usr/bin/mongosh --port 30000 < /mongo-sharding.init.js"
 
 ## Enable admin account
+echo auth init
 docker exec -it mongo-router-01 sh -c "/usr/bin/mongosh --port 30000 < /mongo-auth.init.js"
