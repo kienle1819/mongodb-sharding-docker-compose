@@ -15,7 +15,7 @@ echo seed the config server
 docker exec -it mongo-configserver-a sh -c "/usr/bin/mongosh --port 10001 < /mongo-configserver.init.js"
 
 ## Shard servers setup
-docker exec -it mongo-shard-01a sh -c "/usr/bin/mongosh --port 20001 < /mongo-shard-01.init.js" 
+docker exec -it mongo-shard-01a sh -c "/usr/bin/mongosh --port 20001 < /mongo-shardrs-01.init.js" 
 
 ## Apply sharding configuration
 sleep 15
