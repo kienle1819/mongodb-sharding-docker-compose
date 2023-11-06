@@ -1,106 +1,113 @@
 version: '3.4'
 services:
   mongo-configserver-a:
+    hostname: 'mongo-configserver-a'
     container_name: mongo-configserver-a
-    image: mongo
+    image: mongo:6.0.11
     restart: on-failure
     networks:
         - netApplication
-    command: mongod --auth --port 10001 --configsvr --replSet mongo-configserver --dbpath /data/db --keyFile /mongodb.key
+    command: mongod --auth --port 27017 --configsvr --replSet mongo-configserver --dbpath /data/db --keyFile /mongodb.key
     expose: 
-        - 10001
+        - 27017
     ports: 
-        - 10001:10001 
+        - 10001:27017 
     volumes:
         - ./mongodb.key:/mongodb.key
         - ./mongo-configserver.init.js:/mongo-configserver.init.js
         - ./data/mongo-configserver-a:/data/db
   mongo-configserver-b:
+    hostname: 'mongo-configserver-b' 
     container_name: mongo-configserver-b
-    image: mongo
+    image: mongo:6.0.11
     restart: on-failure
     networks:
         - netApplication
-    command: mongod --auth --port 10002 --configsvr --replSet mongo-configserver --dbpath /data/db --keyFile /mongodb.key
+    command: mongod --auth --port 27017 --configsvr --replSet mongo-configserver --dbpath /data/db --keyFile /mongodb.key
     expose: 
-        - 10002
+        - 27017
     ports: 
-        - 10002:10002
+        - 10002:27017
     volumes:
         - ./mongodb.key:/mongodb.key
         - ./mongo-configserver.init.js:/mongo-configserver.init.js
         - ./data/mongo-configserver-b:/data/db
   mongo-configserver-c:
+    hostname: 'mongo-configserver-c'
     container_name: mongo-configserver-c
-    image: mongo
+    image: mongo:6.0.11
     restart: on-failure
     networks:
         - netApplication
-    command: mongod --auth --port 10003 --configsvr --replSet mongo-configserver --dbpath /data/db --keyFile /mongodb.key
+    command: mongod --auth --port 27017 --configsvr --replSet mongo-configserver --dbpath /data/db --keyFile /mongodb.key
     expose: 
-        - 10003
+        - 27017
     ports: 
-        - 10003:10003
+        - 10003:27017
     volumes:
         - ./mongodb.key:/mongodb.key
         - ./mongo-configserver.init.js:/mongo-configserver.init.js
         - ./data/mongo-configserver-c:/data/db
   mongo-shard-01a:
+    hostname: 'mongo-shard-01a'
     container_name: mongo-shard-01a
-    image: mongo
+    image: mongo:6.0.11
     restart: on-failure
     networks:
         - netApplication
-    command: mongod --auth --port 20001 --shardsvr --replSet mongo-shard-01 --dbpath /data/db  --keyFile /mongodb.key
+    command: mongod --auth --port 27017 --shardsvr --replSet mongo-shard-01 --dbpath /data/db  --keyFile /mongodb.key
     expose: 
-        - 20001
+        - 27017
     ports: 
-        - 20001:20001
+        - 20001:27017
     volumes:
         - ./mongodb.key:/mongodb.key
         - ./mongo-shard-01.init.js:/mongo-shard-01.init.js
         - ./data/mongo-shard-01a:/data/db
   mongo-shard-01b:
+    hostname: 'mongo-shard-01b'
     container_name: mongo-shard-01b
-    image: mongo
+    image: mongo:6.0.11
     restart: on-failure
     networks:
         - netApplication
-    command: mongod --auth --port 20002 --shardsvr --replSet mongo-shard-01 --dbpath /data/db  --keyFile /mongodb.key
+    command: mongod --auth --port 27017 --shardsvr --replSet mongo-shard-01 --dbpath /data/db  --keyFile /mongodb.key
     expose: 
-        - 20002
+        - 27017
     ports: 
-        - 20002:20002
+        - 20002:27017
     volumes:
         - ./mongodb.key:/mongodb.key
         - ./mongo-shard-01.init.js:/mongo-shard-01.init.js
         - ./data/mongo-shard-01b:/data/db
   mongo-shard-01c:
+    hostname: 'mongo-shard-01c'
     container_name: mongo-shard-01c
-    image: mongo
+    image: mongo:6.0.11
     restart: on-failure
     networks:
         - netApplication
-    command: mongod --auth --port 20003 --shardsvr --replSet mongo-shard-01 --dbpath /data/db  --keyFile /mongodb.key
+    command: mongod --auth --port 27017 --shardsvr --replSet mongo-shard-01 --dbpath /data/db  --keyFile /mongodb.key
     expose: 
-        - 20003
+        - 27017
     ports: 
-        - 20003:20003
+        - 20003:27017
     volumes:
         - ./mongodb.key:/mongodb.key
         - ./mongo-shard-01.init.js:/mongo-shard-01.init.js
         - ./data/mongo-shard-01c:/data/db
   mongo-router-01:
+    hostname: 'mongo-router-01'
     container_name: mongo-router-01
-    image: mongo
+    image: mongo:6.0.11
     restart: on-failure
     networks:
         - netApplication
-    command: mongos --port 30000 --configdb mongo-configserver/mongo-configserver-a:10001,mongo-configserver-b:10002,mongo-configserver-c:10003 --keyFile /mongodb.key
+    command: mongos --bind_ip 0.0.0.0 --port 27017 --configdb mongo-configserver/mongo-configserver-a:27017,mongo-configserver-b:27017,mongo-configserver-c:27017 --keyFile /mongodb.key
     expose: 
-        - 30000
+        - 27017
     ports: 
-        - 30000:30000
+        - 30000:27017
     volumes:
         - ./mongodb.key:/mongodb.key
         - ./mongo-sharding.init.js:/mongo-sharding.init.js
