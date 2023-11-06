@@ -62,7 +62,7 @@ services:
         - 20001:27017
     volumes:
         - ./mongodb.key:/mongodb.key
-        - ./mongo-shard-01.init.js:/mongo-shard-01.init.js
+        - ./mongo-shardrs-01.init.js:/mongo-shardrs-01.init.js
         - ./data/mongo-shard-01a:/data/db
   mongo-shard-01b:
     hostname: 'mongo-shard-01b'
@@ -78,7 +78,7 @@ services:
         - 20002:27017
     volumes:
         - ./mongodb.key:/mongodb.key
-        - ./mongo-shard-01.init.js:/mongo-shard-01.init.js
+        - ./mongo-shardrs-01.init.js:/mongo-shardrs-01.init.js
         - ./data/mongo-shard-01b:/data/db
   mongo-shard-01c:
     hostname: 'mongo-shard-01c'
@@ -94,7 +94,7 @@ services:
         - 20003:27017
     volumes:
         - ./mongodb.key:/mongodb.key
-        - ./mongo-shard-01.init.js:/mongo-shard-01.init.js
+        - ./mongo-shardrs-01.init.js:/mongo-shardrs-01.init.js
         - ./data/mongo-shard-01c:/data/db
   mongo-router-01:
     hostname: 'mongo-router-01'
@@ -112,7 +112,7 @@ services:
         - ./mongodb.key:/mongodb.key
         - ./mongo-sharding.init.js:/mongo-sharding.init.js
         - ./mongo-auth.init.js:/mongo-auth.init.js
-        - ./data/mongo-router-01:/data/db
+        - ./data/mongo-router-01:/data/db  
     depends_on:
       - mongo-configserver-a
       - mongo-configserver-b
